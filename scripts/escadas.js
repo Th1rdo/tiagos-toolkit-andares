@@ -14,7 +14,28 @@ import { menu, moverPara } from "./editar.js";
 let camada = null;
 let aUsar = false;
 
-const ICONES = { escada: "", elevador: "", buraco: "" };     // fa-stairs · fa-elevator · fa-circle
+/**
+ * O símbolo desenhado à mão, não com a letra do Font Awesome: o v14 traz a «Font Awesome 7 Pro» e o nome
+ * antigo («6 Pro») mostrava a caixa do carácter em falta («F229») no Forge do Tiago.
+ */
+function desenharSimbolo(tipo, r) {
+  const s = new PIXI.Graphics();
+  const cor = 0xf2e6c8, w = Math.max(1.5, r * 0.11), u = r * 0.42;
+  s.lineStyle({ width: w, color: cor, alpha: 1, cap: "round", join: "round" });
+  if (tipo === "elevador") {
+    s.drawRoundedRect(-u * 0.75, -u, u * 1.5, u * 2, u * 0.15);
+    s.moveTo(-u * 0.35, -u * 0.15).lineTo(0, -u * 0.6).lineTo(u * 0.35, -u * 0.15);
+    s.moveTo(-u * 0.35, u * 0.15).lineTo(0, u * 0.6).lineTo(u * 0.35, u * 0.15);
+  } else if (tipo === "buraco") {
+    s.drawEllipse(0, 0, u, u * 0.6);
+    s.lineStyle(0).beginFill(cor, 0.85).drawEllipse(0, u * 0.08, u * 0.6, u * 0.32).endFill();
+  } else {
+    // três degraus a subir para a direita
+    s.moveTo(-u, u).lineTo(-u, u * 0.33).lineTo(-u * 0.33, u * 0.33).lineTo(-u * 0.33, -u * 0.33)
+      .lineTo(u * 0.33, -u * 0.33).lineTo(u * 0.33, -u).lineTo(u, -u);
+  }
+  return s;
+}
 
 export const caixaDe = caixaDaRegiao;
 
@@ -41,7 +62,7 @@ export function desenhar() {
   for (const { regiao, comportamento } of passagensAqui()) {
     const caixa = caixaDe(regiao);
     if (!caixa) continue;
-    camada.addChild(icone({ regiao, comportamento, caixa, r: Math.max(18, g * 0.3) }));
+    camada.addChild(icone({ regiao, comportamento, caixa, r: Math.max(13, g * 0.22) }));
   }
   canvas.controls.addChild(camada);
 }
@@ -62,14 +83,12 @@ function icone({ comportamento, caixa, r }) {
   const fundo = new PIXI.Graphics();
   const pintar = (realce) => {
     fundo.clear();
-    fundo.lineStyle(Math.max(2, r * 0.09), realce ? 0xf0d48a : 0xd8b66a, 1);
-    fundo.beginFill(0x0c0c0e, realce ? 0.95 : 0.8).drawCircle(0, 0, r).endFill();
+    fundo.lineStyle(Math.max(1.5, r * 0.08), realce ? 0xf0d48a : 0xd8b66a, realce ? 1 : 0.75);
+    fundo.beginFill(0x0c0c0e, realce ? 0.85 : 0.6).drawCircle(0, 0, r).endFill();
   };
   pintar(false);
-  const simbolo = new PIXI.Text(ICONES[tipo], {
-    fontFamily: "Font Awesome 6 Pro", fontWeight: "900", fontSize: r * 1.05, fill: 0xf2e6c8
-  });
-  simbolo.anchor.set(0.5);
+  const simbolo = desenharSimbolo(tipo, r);
+  simbolo.alpha = 0.85;
   const rotulo = new PIXI.Text("", {
     fontFamily: "Signika, sans-serif", fontSize: Math.max(12, r * 0.55), fill: 0xffffff,
     stroke: 0x000000, strokeThickness: 4
@@ -81,11 +100,12 @@ function icone({ comportamento, caixa, r }) {
 
   c.on("pointerover", () => {
     pintar(true);
+    simbolo.alpha = 1;
     c.scale.set(1.08);
     rotulo.text = game.i18n.localize(`ANDARES.Tipos.${tipo}`);
     rotulo.visible = true;
   });
-  c.on("pointerout", () => { pintar(false); c.scale.set(1); rotulo.visible = false; });
+  c.on("pointerout", () => { pintar(false); c.scale.set(1); simbolo.alpha = 0.85; rotulo.visible = false; });
   c.on("pointerdown", (ev) => {
     ev.stopPropagation();          // o clique é da escada, não do mapa (não desseleciona o token)
     if (ev.button === 2 && game.user.isGM) return void menu(comportamento.parent);
