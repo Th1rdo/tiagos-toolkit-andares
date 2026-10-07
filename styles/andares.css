@@ -30,3 +30,16 @@
 @media (prefers-reduced-motion: reduce) {
   #andares-veu, #andares-veu.andares-escuro { transition: none; }
 }
+
+/* ---------- o mestre a pôr escadas (editar.js) ---------- */
+.andares-fantasma {
+  position: fixed; left: 0; top: 0; z-index: 9500; pointer-events: none; opacity: 0;
+  width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: rgba(12, 12, 14, .85); border: 3px solid #d8b66a; color: #f2e6c8; font-size: 17px;
+}
+.andares-fantasma.andares-visivel { opacity: 1; }
+.andares-aviso {
+  position: fixed; left: 50%; top: 14px; transform: translateX(-50%); z-index: 9500; pointer-events: none;
+  max-width: 70vw; padding: 8px 16px; border-radius: 6px; text-align: center;
+  background: rgba(12, 12, 14, .9); color: #f2e6c8; border: 1px solid rgba(216, 182, 106, .5); font-size: 14px;
+}

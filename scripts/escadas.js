@@ -1,6 +1,7 @@
 import { MODULE_ID } from "./const.js";
 import { maisPerto, tipoValido } from "./logica.js";
-import { TIPO, usar, saidas } from "./passagem.js";
+import { TIPO, usar, saidas, caixaDaRegiao } from "./passagem.js";
+import { menu, moverPara } from "./editar.js";
 
 /**
  * Os ícones das passagens no mapa, como os das portas: um por passagem, no andar que se está a
@@ -15,18 +16,7 @@ let aUsar = false;
 
 const ICONES = { escada: "", elevador: "", buraco: "" };     // fa-stairs · fa-elevator · fa-circle
 
-/** A caixa (x, y, largura, altura) das formas de uma região. */
-export function caixaDe(regiao) {
-  const xs = [], ys = [];
-  for (const f of regiao.shapes ?? []) {
-    if (f.type === "rectangle") { xs.push(f.x, f.x + f.width); ys.push(f.y, f.y + f.height); }
-    else if (f.type === "ellipse") { xs.push(f.x - f.radiusX, f.x + f.radiusX); ys.push(f.y - f.radiusY, f.y + f.radiusY); }
-    else if (f.points?.length) for (let i = 0; i < f.points.length; i += 2) { xs.push(f.points[i]); ys.push(f.points[i + 1]); }
-  }
-  if (!xs.length) return null;
-  const x = Math.min(...xs), y = Math.min(...ys);
-  return { x, y, width: Math.max(...xs) - x, height: Math.max(...ys) - y };
-}
+export const caixaDe = caixaDaRegiao;
 
 /** As passagens ativas que existem no andar que se está a ver. */
 function passagensAqui() {
@@ -97,9 +87,31 @@ function icone({ comportamento, caixa, r }) {
   });
   c.on("pointerout", () => { pintar(false); c.scale.set(1); rotulo.visible = false; });
   c.on("pointerdown", (ev) => {
-    if (ev.button !== 0) return;
     ev.stopPropagation();          // o clique é da escada, não do mapa (não desseleciona o token)
-    clicar(comportamento, caixa);
+    if (ev.button === 2 && game.user.isGM) return void menu(comportamento.parent);
+    if (ev.button !== 0) return;
+    if (!game.user.isGM) return void clicar(comportamento, caixa);
+    // o mestre: carregar e largar usa a escada; carregar e mexer arrasta-a para outro sítio
+    const inicio = { x: ev.global.x, y: ev.global.y };
+    const origem = { x: c.position.x, y: c.position.y };
+    let arrastar = false;
+    const mexer = (e) => {
+      const p = canvas.canvasCoordinatesFromClient({ x: e.clientX, y: e.clientY });
+      const r = canvas.app.view.getBoundingClientRect();
+      const dx = e.clientX - r.left - inicio.x, dy = e.clientY - r.top - inicio.y;
+      if (!arrastar && Math.hypot(dx, dy) < 6) return;
+      arrastar = true;
+      c.position.set(p.x, p.y);
+    };
+    const largar = (e) => {
+      document.removeEventListener("pointermove", mexer, true);
+      document.removeEventListener("pointerup", largar, true);
+      if (!arrastar) return void clicar(comportamento, caixa);
+      c.position.set(origem.x, origem.y);
+      void moverPara(comportamento.parent, canvas.canvasCoordinatesFromClient({ x: e.clientX, y: e.clientY }));
+    };
+    document.addEventListener("pointermove", mexer, true);
+    document.addEventListener("pointerup", largar, true);
   });
   return c;
 }

@@ -17,5 +17,17 @@
   "ANDARES.Config.MestreDica": "Off: when the GM drags a token through stairs, it changes level without the screen going dark.",
   "TYPES.RegionBehavior.tiagos-toolkit-andares.passagem": "Passage (stairs, elevator, hole)",
   "ANDARES.ChegaPerto": "Get closer to use it.",
-  "ANDARES.SemToken": "Select your token first."
+  "ANDARES.SemToken": "Select your token first.",
+  "ANDARES.Editar.Botao": "Stairs (place and link)",
+  "ANDARES.Editar.SemAndares": "This scene has no levels. Create the levels first.",
+  "ANDARES.Editar.ClicaOnde": "Click where the stairs are. Esc to cancel.",
+  "ANDARES.Editar.AgoraOutroAndar": "Stairs placed on {andar}. Switch to the other level and click where they arrive (or on existing stairs). Esc leaves them unlinked.",
+  "ANDARES.Editar.MudaDeAndar": "Switch to the other level first.",
+  "ANDARES.Editar.FicouSozinha": "The stairs are unlinked: they link automatically to stairs of the same type on another level, or right-click to link them.",
+  "ANDARES.Editar.Ligadas": "Stairs linked: {a} ↔ {b}.",
+  "ANDARES.Editar.LigadaA": "Linked to {andar}. Drag the icon to move it.",
+  "ANDARES.Editar.NaoLigada": "Not linked (goes to stairs of the same type on another level). Drag the icon to move it.",
+  "ANDARES.Editar.Ligar": "Link to other stairs",
+  "ANDARES.Editar.Tornar": "Make it {tipo}",
+  "ANDARES.Editar.Apagar": "Delete"
 }

@@ -1,6 +1,7 @@
 import { MODULE_ID, log } from "./const.js";
 import { Passagem, TIPO } from "./passagem.js";
 import { desenhar, limpar } from "./escadas.js";
+import { novaEscada } from "./editar.js";
 
 /**
  * Andares: passar de um andar a outro sem janelas.
@@ -39,3 +40,18 @@ const redesenhar = foundry.utils.debounce(() => desenhar(), 50);
 for (const h of ["createRegion", "updateRegion", "deleteRegion", "createRegionBehavior", "updateRegionBehavior", "deleteRegionBehavior"]) {
   Hooks.on(h, (doc) => { if ((doc.parent?.parent ?? doc.parent)?.id === canvas.scene?.id || doc.parent?.id === canvas.scene?.id) redesenhar(); });
 }
+
+// o botão do mestre: pôr uma escada e ligá-la à do outro andar, sem abrir regiões nem comportamentos
+Hooks.on("getSceneControlButtons", (controls) => {
+  if (!game.user.isGM || Array.isArray(controls)) return;
+  const grupo = controls.tokens ?? Object.values(controls)[0];
+  if (!grupo?.tools) return;
+  grupo.tools.andaresEscada = {
+    name: "andaresEscada",
+    order: Object.keys(grupo.tools).length + 1,
+    title: "ANDARES.Editar.Botao",
+    icon: "fa-solid fa-stairs",
+    button: true, visible: true,
+    onChange: () => novaEscada()
+  };
+});

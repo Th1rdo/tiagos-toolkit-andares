@@ -17,5 +17,17 @@
   "ANDARES.Config.MestreDica": "Desligado: quando o mestre arrasta um token pelas escadas, o token muda de andar sem o ecrã escurecer.",
   "TYPES.RegionBehavior.tiagos-toolkit-andares.passagem": "Passagem (escada, elevador, buraco)",
   "ANDARES.ChegaPerto": "Chegue mais perto para usar.",
-  "ANDARES.SemToken": "Selecione o seu token primeiro."
+  "ANDARES.SemToken": "Selecione o seu token primeiro.",
+  "ANDARES.Editar.Botao": "Escada (pôr e ligar a outra)",
+  "ANDARES.Editar.SemAndares": "Esta cena não tem andares. Cria os andares primeiro.",
+  "ANDARES.Editar.ClicaOnde": "Clica onde fica a escada. Esc para desistir.",
+  "ANDARES.Editar.AgoraOutroAndar": "Escada posta no {andar}. Muda para o outro andar e clica onde ela chega (ou numa escada que já lá esteja). Esc deixa-a sozinha.",
+  "ANDARES.Editar.MudaDeAndar": "Muda primeiro para o outro andar.",
+  "ANDARES.Editar.FicouSozinha": "A escada ficou sem ligação: liga-se sozinha à escada do mesmo tipo noutro andar, ou clica com o botão direito para a ligar.",
+  "ANDARES.Editar.Ligadas": "Escadas ligadas: {a} ↔ {b}.",
+  "ANDARES.Editar.LigadaA": "Ligada ao {andar}. Arrasta o ícone para a mudar de sítio.",
+  "ANDARES.Editar.NaoLigada": "Sem ligação (vai à escada do mesmo tipo noutro andar). Arrasta o ícone para a mudar de sítio.",
+  "ANDARES.Editar.Ligar": "Ligar a outra escada",
+  "ANDARES.Editar.Tornar": "Passar a {tipo}",
+  "ANDARES.Editar.Apagar": "Apagar"
 }

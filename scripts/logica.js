@@ -63,3 +63,37 @@ export function maisPerto(tokens = [], caixa, grelha = 100) {
   return tokens.filter(t => perto(t.centro, caixa, grelha))
     .sort((a, b) => Math.hypot(a.centro.x - c.x, a.centro.y - c.y) - Math.hypot(b.centro.x - c.x, b.centro.y - c.y))[0] ?? null;
 }
+
+/**
+ * Escadas em sítios diferentes em cada andar. Uma região do Foundry tem a mesma forma em todos os
+ * andares a que pertence — o Tiago desenhou a escada no 2.º e ela apareceu no 1.º no mesmo sítio,
+ * e mexer numa mexia na outra. Por isso cada andar pode ter a SUA região, e as passagens do mesmo
+ * tipo ligam-se sozinhas: de uma escada chega-se aos andares onde há outra escada.
+ *
+ * passagens: [{ id, tipo, andares: [ids] (vazio = todos), centro: {x, y} }]
+ * Devolve os ids dos andares a que se chega a partir da passagem `deId`, estando no andar `atual`.
+ */
+export function andaresLigados(passagens = [], deId, atual, todos = []) {
+  const de = passagens.find(p => p.id === deId);
+  if (!de) return [];
+  const naRegiao = (p) => (p.andares?.length ? p.andares : todos);
+  const ids = new Set(naRegiao(de));
+  for (const p of passagens) if (p.id !== deId && p.tipo === de.tipo) for (const a of naRegiao(p)) ids.add(a);
+  ids.delete(atual);
+  return [...ids].filter(id => todos.includes(id));
+}
+
+/**
+ * Onde o token aparece no andar de destino. Se a própria região também existe lá (uma escada só,
+ * desenhada nos dois andares), fica onde está: `null`. Senão, no centro da passagem do mesmo tipo
+ * nesse andar mais perto desta (duas escadas no prédio → cada uma leva à sua).
+ */
+export function chegada(passagens = [], deId, destino, todos = []) {
+  const de = passagens.find(p => p.id === deId);
+  if (!de) return null;
+  const naRegiao = (p) => (p.andares?.length ? p.andares : todos);
+  if (naRegiao(de).includes(destino)) return null;
+  const la = passagens.filter(p => p.id !== deId && p.tipo === de.tipo && naRegiao(p).includes(destino));
+  const d = (p) => Math.hypot(p.centro.x - de.centro.x, p.centro.y - de.centro.y);
+  return la.sort((a, b) => d(a) - d(b))[0]?.centro ?? null;
+}

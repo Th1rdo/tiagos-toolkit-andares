@@ -70,3 +70,31 @@ test("maisPerto: com vários tokens escolhidos, o que está ao pé da escada", (
   assert.equal(maisPerto(tokens, escada, 100)?.id, "cima");
   assert.equal(maisPerto([tokens[0]], escada, 100), null);
 });
+
+import { andaresLigados, chegada } from "../scripts/logica.js";
+
+// o caso do Tiago: a escada do 2.º andar e a do 1.º em sítios diferentes, cada uma no seu andar
+const todos = ["cave", "rc", "p1"];
+const escadaRC = { id: "eRC", tipo: "escada", andares: ["rc"], centro: { x: 500, y: 500 } };
+const escadaP1 = { id: "eP1", tipo: "escada", andares: ["p1"], centro: { x: 1500, y: 300 } };
+
+test("escadas separadas: cada uma leva ao andar da outra", () => {
+  assert.deepEqual(andaresLigados([escadaRC, escadaP1], "eRC", "rc", todos), ["p1"]);
+  assert.deepEqual(andaresLigados([escadaRC, escadaP1], "eP1", "p1", todos), ["rc"]);
+  // um elevador não liga a uma escada
+  const elev = { id: "el", tipo: "elevador", andares: ["cave"], centro: { x: 0, y: 0 } };
+  assert.deepEqual(andaresLigados([escadaRC, escadaP1, elev], "eRC", "rc", todos), ["p1"]);
+  // uma região só, nos dois andares (o modo antigo) continua a funcionar
+  const dupla = { id: "d", tipo: "escada", andares: ["rc", "p1"], centro: { x: 0, y: 0 } };
+  assert.deepEqual(andaresLigados([dupla], "d", "rc", todos), ["p1"]);
+});
+
+test("chegada: ao centro da escada de lá; na mesma região, fica onde está", () => {
+  assert.deepEqual(chegada([escadaRC, escadaP1], "eRC", "p1", todos), { x: 1500, y: 300 });
+  assert.deepEqual(chegada([escadaRC, escadaP1], "eP1", "rc", todos), { x: 500, y: 500 });
+  const dupla = { id: "d", tipo: "escada", andares: ["rc", "p1"], centro: { x: 0, y: 0 } };
+  assert.equal(chegada([dupla], "d", "p1", todos), null);
+  // duas escadas no 1.º: vai para a mais perto desta
+  const outra = { id: "eP1b", tipo: "escada", andares: ["p1"], centro: { x: 520, y: 480 } };
+  assert.deepEqual(chegada([escadaRC, escadaP1, outra], "eRC", "p1", todos), { x: 520, y: 480 });
+});
