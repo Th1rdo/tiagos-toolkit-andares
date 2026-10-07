@@ -1,0 +1,32 @@
+/* ============================================================================
+   Tiago's Toolkit: Andares — o véu preto da passagem e a escolha Subir/Descer.
+   ========================================================================== */
+
+/* por cima de tudo (janelas do Foundry incluídas), só no ecrã de quem moveu o token */
+#andares-veu {
+  /* acima das notificações do Foundry: o «a carregar» do andar novo aparecia por cima do preto */
+  position: fixed; inset: 0; z-index: 100000; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, #050505 0%, #000 70%);
+  opacity: 0; transition: opacity .6s ease;
+}
+#andares-veu.andares-escuro { opacity: 1; transition: opacity .35s ease-in; }
+/* cair é um corte seco */
+#andares-veu.andares-buraco.andares-escuro { transition: opacity .12s ease-in; }
+
+#andares-escolha {
+  position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 9000;
+  display: flex; gap: 10px; animation: andares-aparecer .2s ease-out;
+}
+@keyframes andares-aparecer { from { opacity: 0; transform: translate(-50%, -44%); } }
+#andares-escolha button.andares-opcao {
+  width: auto; height: auto; min-height: 0; margin: 0; padding: 12px 18px; line-height: 1.2; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; font-size: 15px;
+  background: rgba(12, 12, 14, .92); color: #eee; border: 1px solid rgba(255, 255, 255, .18); border-radius: 6px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, .6);
+}
+#andares-escolha button.andares-opcao:hover { border-color: #d8b66a; color: #fff; }
+#andares-escolha .andares-opcao i { color: #d8b66a; }
+
+@media (prefers-reduced-motion: reduce) {
+  #andares-veu, #andares-veu.andares-escuro { transition: none; }
+}

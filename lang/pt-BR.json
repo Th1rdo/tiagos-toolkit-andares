@@ -1,0 +1,21 @@
+{
+  "ANDARES.Passagem.FIELDS.tipo.label": "Tipo de passagem",
+  "ANDARES.Passagem.FIELDS.tipo.hint": "Escada: o ecrã escurece e ouvem-se passos. Elevador e buraco: só a transição (sem som, por agora). Usa-se clicando no ícone, com o token ao pé.",
+  "ANDARES.Passagem.FIELDS.destino.label": "Andar de destino",
+  "ANDARES.Passagem.FIELDS.destino.hint": "Automático: o outro andar da região. Se a região tiver mais de dois andares, quem passa escolhe Subir ou Descer.",
+  "ANDARES.Tipos.escada": "Escada",
+  "ANDARES.Tipos.elevador": "Elevador",
+  "ANDARES.Tipos.buraco": "Buraco",
+  "ANDARES.Automatico": "Automático",
+  "ANDARES.Subir": "Subir para {andar}",
+  "ANDARES.Descer": "Descer para {andar}",
+  "ANDARES.Config.SomSubir": "Som da escada — subir",
+  "ANDARES.Config.SomSubirDica": "Os passos que se ouvem ao subir (uns 3 segundos).",
+  "ANDARES.Config.SomDescer": "Som da escada — descer",
+  "ANDARES.Config.SomDescerDica": "Os passos ao descer. Vazio = o mesmo de subir.",
+  "ANDARES.Config.Mestre": "O mestre também vê a transição",
+  "ANDARES.Config.MestreDica": "Desligado: quando o mestre arrasta um token pelas escadas, o token muda de andar sem o ecrã escurecer.",
+  "TYPES.RegionBehavior.tiagos-toolkit-andares.passagem": "Passagem (escada, elevador, buraco)",
+  "ANDARES.ChegaPerto": "Chegue mais perto para usar.",
+  "ANDARES.SemToken": "Selecione o seu token primeiro."
+}

@@ -1,0 +1,21 @@
+{
+  "ANDARES.Passagem.FIELDS.tipo.label": "Passage type",
+  "ANDARES.Passagem.FIELDS.tipo.hint": "Stairs: the screen goes dark and footsteps play. Elevator and hole: transition only (no sound yet). Used by clicking the icon with the token next to it.",
+  "ANDARES.Passagem.FIELDS.destino.label": "Destination level",
+  "ANDARES.Passagem.FIELDS.destino.hint": "Automatic: the region's other level. With more than two levels, whoever passes chooses Up or Down.",
+  "ANDARES.Tipos.escada": "Stairs",
+  "ANDARES.Tipos.elevador": "Elevator",
+  "ANDARES.Tipos.buraco": "Hole",
+  "ANDARES.Automatico": "Automatic",
+  "ANDARES.Subir": "Up to {andar}",
+  "ANDARES.Descer": "Down to {andar}",
+  "ANDARES.Config.SomSubir": "Stairs sound — up",
+  "ANDARES.Config.SomSubirDica": "The footsteps heard going up (about 3 seconds).",
+  "ANDARES.Config.SomDescer": "Stairs sound — down",
+  "ANDARES.Config.SomDescerDica": "Footsteps going down. Empty = same as up.",
+  "ANDARES.Config.Mestre": "The GM also sees the transition",
+  "ANDARES.Config.MestreDica": "Off: when the GM drags a token through stairs, it changes level without the screen going dark.",
+  "TYPES.RegionBehavior.tiagos-toolkit-andares.passagem": "Passage (stairs, elevator, hole)",
+  "ANDARES.ChegaPerto": "Get closer to use it.",
+  "ANDARES.SemToken": "Select your token first."
+}
